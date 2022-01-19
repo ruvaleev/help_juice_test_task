@@ -2,6 +2,9 @@
 
 class ArticlesController < ApplicationController
   def index
+  end
+
+  def search
     @articles =
       Article.where(
         'title LIKE :search_string OR body LIKE :search_string',
