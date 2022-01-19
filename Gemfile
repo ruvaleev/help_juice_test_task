@@ -12,6 +12,7 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.0'
 gem 'redis', '~> 4.0'
+gem 'require_all'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
@@ -25,4 +26,9 @@ end
 
 group :development do
   gem 'web-console'
+end
+
+group :test do
+  gem 'rspec-rails', '~> 5.0.0'
+  gem 'shoulda-matchers', '~> 5.0'
 end

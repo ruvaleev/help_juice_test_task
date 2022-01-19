@@ -10,6 +10,7 @@ AllCops:
     - 'db/migrate/*'
     - 'notes/*'
   NewCops: enable
+  SuggestExtensions: false
 
 Layout/LineLength:
   Max: 120
