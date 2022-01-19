@@ -1,0 +1,12 @@
+= form_tag root_path, method: :get, remote: true, id: :search_form  do
+  = label_tag :query, t('artiles.search')
+  = text_field_tag :query, nil, placeholder: t('articles.enter_your_search_query_here')
+  = submit_tag t('buttons.find')
+
+javascript:
+  document.getElementById('query').addEventListener('input', (e) => {
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(() => {
+      document.getElementById('search_form').requestSubmit()
+    }, 200)
+  })

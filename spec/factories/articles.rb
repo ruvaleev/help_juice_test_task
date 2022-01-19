@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :article do
-    body { FFaker::Lorem.paragraphs }
+    body { FFaker::Lorem.paragraph }
     title { FFaker::Lorem.phrase }
   end
 end

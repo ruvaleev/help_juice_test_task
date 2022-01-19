@@ -21,6 +21,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
   gem 'bundler-audit'
+  gem 'database_cleaner-active_record'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails', require: false
   gem 'rubocop', require: false
@@ -33,8 +34,10 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
   gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
 end

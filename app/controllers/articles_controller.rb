@@ -2,13 +2,9 @@
 
 class ArticlesController < ApplicationController
   def index
-  end
-
-  def search
-    @articles =
-      Article.where(
-        'title LIKE :search_string OR body LIKE :search_string',
-        search_string: "%#{params[:search_string]}%"
-      )
+    @articles = Article.where(
+      'title ILIKE :query OR body ILIKE :query',
+      query: "%#{params[:query]}%"
+    )
   end
 end
