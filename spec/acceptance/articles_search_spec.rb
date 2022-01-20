@@ -2,7 +2,7 @@
 
 require_relative 'acceptance_helper'
 
-describe 'Index Page', '
+describe 'Articles search', '
   In order to find articles
   As User
   I want to be able to use search form
