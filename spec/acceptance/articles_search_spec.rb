@@ -21,10 +21,7 @@ describe 'Articles search', '
   end
 
   context 'when user fills search form with non found value', js: true do
-    before do
-      fill_in 'query', with: SecureRandom.hex
-      find("input[name='commit']").click
-    end
+    before { fill_new_query(SecureRandom.hex) }
 
     it "User doesn't see any of articles on the page" do
       articles.map(&:title).each do |title|
@@ -34,10 +31,7 @@ describe 'Articles search', '
   end
 
   context 'when user fills search form with existing value', js: true do
-    before do
-      fill_in 'query', with: target_article.title
-      find("input[name='commit']").click
-    end
+    before { fill_new_query(target_article.title) }
 
     it "User sees only target article on the page" do
       (articles - [target_article]).map(&:title).each do |title|
@@ -51,7 +45,7 @@ describe 'Articles search', '
   context "when user doesn't submit form by button", js: true do
     before do
       fill_in 'query', with: target_article.title
-      sleep(1)
+      sleep(0.2)
     end
 
     it "User sees only target article on the page" do
