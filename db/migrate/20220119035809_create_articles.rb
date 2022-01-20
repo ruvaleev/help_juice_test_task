@@ -5,13 +5,16 @@ class CreateArticles < ActiveRecord::Migration[7.0]
     create_table :articles do |t|
       t.string :title, null: false
       t.text :body, null: false
+      t.integer :queries_count, null: false, default: 0
 
       t.timestamps
     end
 
-    execute <<-SQL.squish
-      CREATE INDEX articles_body_index ON articles(lower(body))
-    SQL
+    safety_assured do
+      execute <<-SQL.squish
+        CREATE INDEX articles_body_index ON articles(lower(body))
+      SQL
+    end
   end
 
   def down

@@ -33,3 +33,4 @@
 
 node_modules/
 /notes/*
+database_consistency_*

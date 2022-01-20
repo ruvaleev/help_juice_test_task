@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   root 'articles#index'
 
   get 'search', to: 'articles#search'
+
+  resources :article_queries, only: :create
 end

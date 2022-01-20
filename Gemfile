@@ -16,12 +16,14 @@ gem 'require_all'
 gem 'slim-rails'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
+gem 'strong_migrations'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
   gem 'bundler-audit'
   gem 'database_cleaner-active_record'
+  gem 'database_consistency', require: false
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails', require: false
   gem 'rubocop', require: false
