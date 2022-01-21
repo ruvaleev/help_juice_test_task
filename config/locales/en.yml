@@ -2,5 +2,6 @@ en:
   articles:
     search: Search
     enter_your_search_query_here: Enter your search query here
+    recent_queries: Recent queries
   buttons:
     find: Find

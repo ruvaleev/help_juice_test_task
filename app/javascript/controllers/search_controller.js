@@ -1,4 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
+
+import actualQuery from '../functions/actualQuery';
+import isDouble from '../functions/isDouble'
 import updateHistory from '../functions/updateHistory'
 
 const STATISTICS_SEND_INTERVAL = 5_000
@@ -8,10 +11,13 @@ export default class extends Controller {
 
   static values = {
     history: Array,
-    isUpdated: Boolean
+    isUpdated: Boolean,
+    lastRequestTime: Number,
+    lastQueryVariations: Array
   }
 
   connect() {
+    this.lastQueryVariations ||= []
     setInterval(() => {
       this.sendHistoryToBackend()
     }, STATISTICS_SEND_INTERVAL)
@@ -26,9 +32,17 @@ export default class extends Controller {
   }
 
   addToHistory(value) {
-    this.historyValue = updateHistory(value, this.historyValue)
+    const isQueryDouble = isDouble(value, this.lastQueryVariations[this.lastQueryVariations.length - 1])
+    const actualQueryValue = isQueryDouble ? actualQuery(value, this.lastQueryVariations) : value
+    this.historyValue = updateHistory(actualQueryValue, this.historyValue, isQueryDouble)
+
     this.renderHistory()
+    this.updateQueryVariations(value, isQueryDouble)
     this.isUpdated = true
+  }
+
+  updateQueryVariations(value, isQueryDouble) {
+    isQueryDouble ? this.lastQueryVariations.push(value) : this.lastQueryVariations = [value]
   }
 
   renderHistory() {
@@ -36,7 +50,7 @@ export default class extends Controller {
 
     this.historyValue.forEach((record) => {
       const element = document.createElement('div')
-      element.classList.add('query')
+      element.classList.add('query', 'gray')
       element.innerHTML = record[0]
       this.outputTarget.prepend(element)
     })

@@ -1,8 +1,17 @@
-. data-controller = 'search'
-  = form_tag root_path, method: :get, remote: true, data: { search_target: 'form' }, id: :search_form  do
-    = label_tag :query, t('artiles.search')
-    = text_field_tag :query, nil, placeholder: t('articles.enter_your_search_query_here'), data: { action: 'input->search#search', search_target: 'input' }
-    = submit_tag t('buttons.find')
+.bg-white.d-flex.justify-center.p-4.w-full data-controller = 'search'
+  .container
+    = form_tag root_path, method: :get, remote: true, data: { search_target: 'form' }, id: :search_form, class: 'd-flex align-center'  do
+      ruby:
+        input_attributes = {
+          placeholder: t('articles.enter_your_search_query_here'),
+          data: { action: 'input->search#search', search_target: 'input' },
+          autofocus: true,
+          class: 'bordered mr-2 h-2em w-full'
+        }
+      = text_field_tag :query, nil, input_attributes
+      = image_submit_tag('find.svg', class: 'h-2em', alt: t('buttons.find'))
 
-
-  #queries_history data-search-target='output'
+    .recent_queries.align-end.d-flex.flex-wrap
+      span.mr-2.gray
+        = "#{t('articles.recent_queries')}:"
+      #queries_history.d-flex.align-end data-search-target='output'

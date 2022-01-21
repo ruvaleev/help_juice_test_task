@@ -13,3 +13,108 @@
  *= require_tree .
  *= require_self
  */
+
+input::placeholder {
+  color: #BDC4CA;
+  font-weight: 400;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.bg-gray {
+  background-color: #fafafa;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bordered {
+  border-color: rgb(0, 0, 0);
+  border-style: solid;
+  border-radius: 24px;
+  border-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px inset;
+  text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
+  padding: 0 14px;
+  outline: none;
+}
+
+.container {
+  width: 50%;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gray {
+  color: #898686;
+}
+
+.h-2em {
+  height: 2em;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.query {
+  font-size: 0.8em;
+  margin-right: 0.5em;
+}
+
+.query::after {
+  content: ';';
+}
+
+.w-full {
+  width: 100%;
+}
+
+@media (max-width: 499px) {
+  .container {
+    width: 80%;
+  }
+}

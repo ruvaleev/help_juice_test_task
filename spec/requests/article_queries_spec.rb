@@ -42,7 +42,7 @@ RSpec.describe 'ArticleQueries', type: :request do
 
       context 'when record with such user_id and created_at timestamp already exists' do
         let!(:article_query) { create(:article_query, created_at: Time.now.round) }
-  
+
         let(:new_body) { FFaker::Lorem.phrase }
         let(:queries_params) do
           [{

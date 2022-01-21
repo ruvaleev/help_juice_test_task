@@ -59,4 +59,26 @@ describe 'Search history', '
       end
     end
   end
+
+  context 'when user types, removes query and types again' do
+    let(:attempt_1_query) { 'how is' }
+    let(:attempt_2_query) { 'how' }
+    let(:attempt_3_query) { '' }
+    let(:attempt_4_query) { 'what' }
+
+    before do
+      fill_new_query(attempt_1_query)
+      fill_new_query(attempt_2_query)
+      fill_new_query(attempt_3_query)
+      fill_new_query(attempt_4_query)
+    end
+
+    it 'saves both queries in their actual state' do
+      within '#queries_history' do
+        expect(page).to have_text(attempt_1_query)
+        expect(page).to have_text(attempt_4_query)
+        expect(page).to have_selector('.query', count: 2)
+      end
+    end
+  end
 end
