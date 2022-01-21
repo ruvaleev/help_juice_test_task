@@ -2,9 +2,6 @@
 
 class ArticlesController < ApplicationController
   def index
-    @articles = Article.where(
-      'title ILIKE :query OR body ILIKE :query',
-      query: "%#{params[:query]}%"
-    )
+    @articles = Article.by_title_or_body(params[:query])
   end
 end

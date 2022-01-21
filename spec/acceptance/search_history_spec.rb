@@ -81,4 +81,24 @@ describe 'Search history', '
       end
     end
   end
+
+  context 'when user uses double after new search' do
+    let(:attempt_1_query) { 'first query' }
+    let(:attempt_2_query) { 'another query' }
+    let(:attempt_3_query) { 'first query' }
+
+    before do
+      fill_new_query(attempt_1_query)
+      fill_new_query(attempt_2_query, sleep_time: 0.2)
+      fill_new_query(attempt_3_query, sleep_time: 0.2)
+    end
+
+    it 'saves both queries in their actual state' do
+      within '#queries_history' do
+        expect(page).to have_text(attempt_1_query, count: 1)
+        expect(page).to have_text(attempt_2_query)
+        expect(page).to have_selector('.query', count: 2)
+      end
+    end
+  end
 end

@@ -1,19 +1,30 @@
+ruby:
+  form_attributes = {
+    method: :get,
+    remote: true,
+    data: { search_target: 'form' },
+    id: :search_form,
+    class: 'd-flex align-center'
+  }
+  input_attributes = {
+    placeholder: t('articles.enter_your_search_query_here'),
+    data: { action: 'input->search#search', search_target: 'input' },
+    autofocus: true,
+    class: 'bordered mr-2 h-2em w-full'
+  }
+  clear_button_attributes = {
+    class: 'query gray',
+    data: { action: 'click->search#clear', search_target: 'clear_button' }
+  }
+
 .bg-white.d-flex.justify-center.p-4.w-full data-controller = 'search'
   .container
-    = form_tag root_path, method: :get, remote: true, data: { search_target: 'form' }, id: :search_form, class: 'd-flex align-center'  do
-      ruby:
-        input_attributes = {
-          placeholder: t('articles.enter_your_search_query_here'),
-          data: { action: 'input->search#search', search_target: 'input' },
-          autofocus: true,
-          class: 'bordered mr-2 h-2em w-full'
-        }
+    = form_tag root_path, form_attributes  do
       = text_field_tag :query, nil, input_attributes
       = image_submit_tag('find.svg', class: 'h-2em', alt: t('buttons.find'))
 
     .recent_queries.align-end.d-flex.flex-wrap
-      .
-        span.mr-2.gray
-          = "#{t('articles.recent_queries')}:"
-      #queries_history.d-flex.align-end data-search-target='output'
-      = link_to(t('buttons.clear'), root_path, class: 'query gray', data: { action: 'click->search#clear', search_target: 'clear_button' })
+      span.mr-2.gray
+        = "#{t('articles.recent_queries')}:"
+      #queries_history.align-end.d-flex.flex-wrap data-search-target='output'
+      = link_to(t('buttons.clear'), root_path, clear_button_attributes)

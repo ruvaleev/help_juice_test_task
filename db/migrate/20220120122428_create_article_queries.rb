@@ -9,6 +9,8 @@ class CreateArticleQueries < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    add_index :article_queries, :body
+    add_index :article_queries, :user_id
     add_index :article_queries, [:created_at, :user_id], unique: true
   end
 end

@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   get 'search', to: 'articles#search'
   delete 'article_queries', to: 'article_queries#destroy'
 
-  resources :article_queries, only: :create
+  resources :article_queries, only: %i[create index]
 end

@@ -1,8 +1,8 @@
-export default function isDouble(query, lastQueryVariation) {
-  if (!lastQueryVariation) { return }
+export default function isDouble(query, lastQueryVariant) {
+  if (!lastQueryVariant) { return }
 
   const normalizedQuery = forCompare(query)
-  const normalizedPreviousQuery = forCompare(lastQueryVariation)
+  const normalizedPreviousQuery = forCompare(lastQueryVariant)
 
   return (
     normalizedQuery.includes(normalizedPreviousQuery) || normalizedPreviousQuery.includes(normalizedQuery)

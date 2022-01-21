@@ -17,6 +17,7 @@ export default class extends Controller {
   }
 
   connect() {
+    this.fetchArticleQueries()
     this.lastQueryVariants ||= []
     setInterval(() => {
       this.sendHistoryToBackend()
@@ -52,10 +53,24 @@ export default class extends Controller {
 
     this.historyValue.forEach((record) => {
       const element = document.createElement('div')
-      element.classList.add('query', 'gray')
+      element.classList.add('query', 'gray', 'nowrap')
       element.innerHTML = record[0]
       this.outputTarget.prepend(element)
     })
+  }
+
+  fetchArticleQueries() {
+    fetch('/article_queries')
+      .then((response) => {
+        if (response.ok) {
+          response.json().then(json => {
+            this.historyValue = json.map((query) => [query])
+            this.renderHistory()
+          })
+        } else {
+          console.log(response)
+        }
+      })
   }
 
   sendHistoryToBackend() {
@@ -68,7 +83,9 @@ export default class extends Controller {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        article_query: this.historyValue.map((value) => ({ body: value[0], created_at: value[1] }))
+        article_query: this.historyValue
+          .filter((value) => value[1])
+          .map((value) => ({ body: value[0], created_at: value[1] }))
       })
     })
     .then((response) => (

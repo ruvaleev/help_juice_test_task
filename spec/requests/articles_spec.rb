@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require_relative 'concerns/requests_shared_examples'
+require_relative 'concerns/sessions_shared_context'
 
 RSpec.describe 'Articles', type: :request do
   describe 'GET /' do
@@ -35,10 +36,7 @@ RSpec.describe 'Articles', type: :request do
             target_articles.last.update(body: target_body)
           end
 
-          it 'returns articles with searched values only in @articles variable' do
-            send_request
-            expect(assigns(:articles).sort).to eq(target_articles.sort)
-          end
+          it_behaves_like 'includes object to variable', :articles, :target_articles, 'articles with searched values'
         end
 
         context 'when none of articles has searched value in their fields' do

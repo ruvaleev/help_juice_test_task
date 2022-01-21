@@ -86,6 +86,10 @@ input::placeholder {
   margin-top: 1rem;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .p-4 {
   padding: 1rem;
 }

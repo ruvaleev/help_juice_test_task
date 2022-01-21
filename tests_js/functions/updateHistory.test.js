@@ -51,4 +51,18 @@ describe('updateHistory', () => {
       expect(retreivedHistory).toEqual([[query_1, currentTime]])
     })
   })
+
+  describe('when historyQueries has doubles not in last record', () => {
+    it('returns history with provided query', () => {
+      retreivedHistory = updateHistory(query_2, [[query_2, currentTime], [query_1, currentTime]])
+      expect(retreivedHistory).toEqual([[query_1, currentTime], [query_2, currentTime]])
+    })
+  })
+
+  describe('when historyQueries has doubles in last record', () => {
+    it('returns history with provided query', () => {
+      retreivedHistory = updateHistory(query_2, [[query_1, currentTime], [query_2, currentTime]])
+      expect(retreivedHistory).toEqual([[query_1, currentTime], [query_2, currentTime]])
+    })
+  })
 })

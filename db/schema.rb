@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 2022_01_20_122428) do
     t.string "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["body"], name: "index_article_queries_on_body"
     t.index ["created_at", "user_id"], name: "index_article_queries_on_created_at_and_user_id", unique: true
+    t.index ["user_id"], name: "index_article_queries_on_user_id"
   end
 
   create_table "articles", force: :cascade do |t|

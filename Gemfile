@@ -6,6 +6,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.2'
 
 gem 'bootsnap', require: false
+gem 'factory_bot_rails', require: false
+gem 'ffaker', require: false
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg', '~> 1.1'

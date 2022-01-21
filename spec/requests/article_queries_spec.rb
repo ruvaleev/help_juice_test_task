@@ -5,7 +5,52 @@ require_relative 'concerns/requests_shared_examples'
 require_relative 'concerns/sessions_shared_context'
 
 RSpec.describe 'ArticleQueries', type: :request do
-  describe 'POST /' do
+  describe 'GET /article_queries' do
+    subject(:send_request) { get '/article_queries', xhr: true }
+
+    it_behaves_like 'returns status', 200
+
+    context 'whe user has article_queries' do
+      include_context 'with session_id'
+
+      context 'with user queries' do
+        let!(:user_article_queries) { create_list(:article_query, rand(2..3), user_id: session_id).pluck(:body) }
+        let!(:other_user_article_query) { create(:article_query, user_id: SecureRandom.uuid).body }
+
+        it_behaves_like 'includes object to variable',
+          :article_queries, :user_article_queries, 'user article_queries'
+        it_behaves_like "doesn't include object to variable",
+          :article_queries, :other_user_article_query, 'other user article_queries'
+      end
+
+      context 'with quantity of queries' do
+        let(:most_popular) { FFaker::Lorem.phrase }
+        let(:less_popular) { FFaker::Lorem.phrase }
+
+        before do
+          create_list(:article_query, 2, body: most_popular, user_id: session_id)
+          create(:article_query, body: less_popular, user_id: session_id)
+        end
+
+        it 'sorts queries by quantity of their use on backend' do
+          send_request
+          expect(assigns(:article_queries)).to eq([most_popular, less_popular])
+        end
+
+        context 'when user has too many queries' do
+          let(:queries_count) { ArticleQuery::STATISTICS_LIMIT + 1 }
+          let!(:article_queries) { create_list(:article_query, queries_count, user_id: session_id) }
+
+          it 'returns not more than STATISTICS_LIMIT constant allows' do
+            send_request
+            expect(assigns(:article_queries).size).to eq(ArticleQuery::STATISTICS_LIMIT)
+          end
+        end
+      end
+    end
+  end
+
+  describe 'POST /article_queries' do
     subject(:send_request) { post '/article_queries', params: params, xhr: true }
 
     let(:params) { { article_query: queries_params } }
@@ -62,7 +107,7 @@ RSpec.describe 'ArticleQueries', type: :request do
     end
   end
 
-  describe 'DELETE /' do
+  describe 'DELETE /article_queries' do
     subject(:send_request) { delete '/article_queries', xhr: true }
 
     context 'with session_id' do
