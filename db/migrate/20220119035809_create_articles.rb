@@ -9,9 +9,11 @@ class CreateArticles < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    execute <<-SQL.squish
-      CREATE INDEX articles_body_index ON articles(lower(body))
-    SQL
+    safety_assured do
+      execute <<-SQL.squish
+        CREATE INDEX articles_body_index ON articles(lower(body))
+      SQL
+    end
   end
 
   def down

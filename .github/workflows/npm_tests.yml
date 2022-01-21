@@ -1,0 +1,19 @@
+name: NPM tests
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    name: Run npm tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.8.0
+      - run: npm install
+      - run: npm test
+      

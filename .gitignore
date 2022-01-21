@@ -30,4 +30,7 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+
+node_modules/
 /notes/*
+database_consistency_*

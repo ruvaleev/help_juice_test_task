@@ -61,6 +61,13 @@ jobs:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
         bundle exec rails db:create db:schema:load
+    - name: Run database consistency
+      env:
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/help_juice_test_task_test
+        REDIS_URL: redis://localhost:6379/0
+        RAILS_ENV: test
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      run: bundle exec database_consistency
     - name: Run bundler audit
       run: bundler-audit
     - name: Run rubocop
@@ -71,4 +78,4 @@ jobs:
         REDIS_URL: redis://localhost:6379/0
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      run: bundle exec rspec
+      run: bundle exec rspec --exclude-pattern "spec/acceptance/*_spec.rb"
