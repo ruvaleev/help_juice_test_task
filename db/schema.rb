@@ -16,23 +16,19 @@ ActiveRecord::Schema.define(version: 2022_01_20_122428) do
   enable_extension "plpgsql"
 
   create_table "article_queries", force: :cascade do |t|
-    t.bigint "article_id", null: false
     t.string "body", null: false
     t.string "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["article_id"], name: "index_article_queries_on_article_id"
-    t.index ["created_at"], name: "index_article_queries_on_created_at"
+    t.index ["created_at", "user_id"], name: "index_article_queries_on_created_at_and_user_id", unique: true
   end
 
   create_table "articles", force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
-    t.integer "queries_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index "lower(body)", name: "articles_body_index"
   end
 
-  add_foreign_key "article_queries", "articles"
 end

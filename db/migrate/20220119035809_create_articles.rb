@@ -5,7 +5,6 @@ class CreateArticles < ActiveRecord::Migration[7.0]
     create_table :articles do |t|
       t.string :title, null: false
       t.text :body, null: false
-      t.integer :queries_count, null: false, default: 0
 
       t.timestamps
     end

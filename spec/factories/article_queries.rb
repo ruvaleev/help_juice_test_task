@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :article_query do
-    association :article
     body { FFaker::Lorem.word }
     user_id { SecureRandom.hex }
   end

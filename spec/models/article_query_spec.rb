@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe ArticleQuery, type: :model do
-  it { is_expected.to belong_to(:article).counter_cache(:queries_count) }
+  subject(:article_query) { build(:article_query) }
+
   it { is_expected.to validate_presence_of(:body) }
   it { is_expected.to validate_presence_of(:user_id) }
+  it { is_expected.to validate_uniqueness_of(:created_at).scoped_to(:user_id) }
 end

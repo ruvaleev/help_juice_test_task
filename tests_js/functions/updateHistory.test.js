@@ -4,11 +4,16 @@ import updateHistory from '../../app/javascript/functions/updateHistory'
 
 describe('updateHistory', () => {
   let retreivedHistory;
+  const currentTime = new Date();
+
+  jest
+    .useFakeTimers()
+    .setSystemTime(currentTime);
 
   it('returns upadted history', () => {
     const query = 'what is'
     retreivedHistory = updateHistory(query)
-    expect(retreivedHistory).toEqual([query]);
+    expect(retreivedHistory).toEqual([[query, currentTime]]);
   })
 
   describe('when history includes repeated values', () => {
@@ -21,7 +26,7 @@ describe('updateHistory', () => {
       retreivedHistory = updateHistory(query_2, retreivedHistory)
       retreivedHistory = updateHistory(query_3, retreivedHistory)
 
-      expect(retreivedHistory).toEqual([query_3])
+      expect(retreivedHistory).toEqual([[query_3, currentTime]])
     })
   })
 
@@ -35,7 +40,7 @@ describe('updateHistory', () => {
       retreivedHistory = updateHistory(query_2, retreivedHistory)
       retreivedHistory = updateHistory(query_3, retreivedHistory)
 
-      expect(retreivedHistory).toEqual([query_3])
+      expect(retreivedHistory).toEqual([[query_3, currentTime]])
     })
   })
 
@@ -49,7 +54,19 @@ describe('updateHistory', () => {
       retreivedHistory = updateHistory(query_2, retreivedHistory)
       retreivedHistory = updateHistory(query_3, retreivedHistory)
 
-      expect(retreivedHistory).toEqual([query_3])
+      expect(retreivedHistory).toEqual([[query_3, currentTime]])
+    })
+
+    it("allows user to clear query and saves his last full request", () => {
+      const query_1 = 'Type something'
+      const query_2 = ''
+      const query_3 = 'Type another'
+
+      retreivedHistory = updateHistory(query_1)
+      retreivedHistory = updateHistory(query_2, retreivedHistory)
+      retreivedHistory = updateHistory(query_3, retreivedHistory)
+
+      expect(retreivedHistory).toEqual([[query_1, currentTime], [query_3, currentTime]])
     })
   })
 })

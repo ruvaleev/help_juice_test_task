@@ -2,7 +2,7 @@
 
 class ArticleQueriesController < ApplicationController
   def create
-    ArticleQuery.create(article_query_params)
+    ArticleQuery.upsert_all(article_query_params, unique_by: [:created_at, :user_id])
 
     head :created
   end
@@ -11,7 +11,7 @@ class ArticleQueriesController < ApplicationController
 
   def article_query_params
     params[:article_query].map! do |query_param|
-      query_param.merge(user_id: session[:session_id]).permit(:article_id, :body, :user_id)
+      query_param.merge(user_id: session[:session_id]).permit(:body, :created_at, :user_id)
     end
   end
 end
