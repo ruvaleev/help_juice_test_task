@@ -11,13 +11,14 @@ export default class extends Controller {
 
   static values = {
     history: Array,
+    isCleared: Boolean,
     isUpdated: Boolean,
     lastRequestTime: Number,
     lastQueryVariants: Array
   }
 
   connect() {
-    this.fetchArticleQueries()
+    this.isCleared || this.fetchArticleQueries()
     this.lastQueryVariants ||= []
     setInterval(() => {
       this.sendHistoryToBackend()
@@ -40,6 +41,7 @@ export default class extends Controller {
     this.renderHistory()
     this.updateQueryVariants(value, isQueryDouble)
     this.isUpdated = true
+    this.isCleared = false
   }
 
   updateQueryVariants(value, isQueryDouble) {
@@ -106,6 +108,7 @@ export default class extends Controller {
         this.historyValue = []
         this.lastQueryVariants = []
         this.isUpdated = false
+        this.isCleared = true
         this.renderHistory()
       } else {
         console.log(response.statusText)

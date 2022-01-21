@@ -113,6 +113,10 @@ input::placeholder {
   content: ';';
 }
 
+.text-center {
+  text-align: center;
+}
+
 .w-full {
   width: 100%;
 }
