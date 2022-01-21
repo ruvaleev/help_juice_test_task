@@ -27,7 +27,6 @@ group :development, :test do
   gem 'database_cleaner-active_record'
   gem 'database_consistency', require: false
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-  gem 'factory_bot_rails', require: false
   gem 'rubocop', require: false
   gem 'rubocop-discourse', require: false
   gem 'rubocop-rails', require: false
@@ -39,7 +38,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'selenium-webdriver'
