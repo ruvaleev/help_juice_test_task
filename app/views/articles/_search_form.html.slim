@@ -12,6 +12,8 @@
       = image_submit_tag('find.svg', class: 'h-2em', alt: t('buttons.find'))
 
     .recent_queries.align-end.d-flex.flex-wrap
-      span.mr-2.gray
-        = "#{t('articles.recent_queries')}:"
+      .
+        span.mr-2.gray
+          = "#{t('articles.recent_queries')}:"
       #queries_history.d-flex.align-end data-search-target='output'
+      = link_to(t('buttons.clear'), root_path, class: 'query gray', data: { action: 'click->search#clear', search_target: 'clear_button' })

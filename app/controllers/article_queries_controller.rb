@@ -7,6 +7,11 @@ class ArticleQueriesController < ApplicationController
     head :created
   end
 
+  def destroy
+    ArticleQuery.where(user_id: session[:session_id]).destroy_all
+    head :ok
+  end
+
   private
 
   def article_query_params

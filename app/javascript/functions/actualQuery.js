@@ -1,7 +1,9 @@
-export default function actualQuery(query, queryVariations) {
-  if (!queryVariations || queryVariations.length < 1) { return query }
+export default function actualQuery(query, queryVariants) {
+  if (!queryVariants || queryVariants.length < 1) { return query }
 
-  return(
-    queryVariations.find((previousQuery) => previousQuery.length > query.length) || query
-  )
+  const longestQuery = maxByLength(queryVariants)
+
+  return query.length >= longestQuery.length ? query : longestQuery
 }
+
+const maxByLength = (array) => array.sort((x, y) => x.length > y.length ? -1 : 1)[0]

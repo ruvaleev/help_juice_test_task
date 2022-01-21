@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative 'concerns/sessions_shared_context'
 
 RSpec.describe 'Sessions', type: :request do
   describe 'GET /' do
     subject(:send_request) { get '/' }
 
-    let(:session_id) { SecureRandom.uuid }
-
     context 'with session' do
-      before { allow(SecureRandom).to receive(:hex).and_return(session_id) }
+      include_context 'with session_id'
 
       it 'set random session id and writes it to user session' do
         send_request

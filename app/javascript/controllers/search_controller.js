@@ -7,17 +7,17 @@ import updateHistory from '../functions/updateHistory'
 const STATISTICS_SEND_INTERVAL = 5_000
 
 export default class extends Controller {
-  static targets = ['form', 'input', 'output']
+  static targets = ['clear_button', 'form', 'input', 'output']
 
   static values = {
     history: Array,
     isUpdated: Boolean,
     lastRequestTime: Number,
-    lastQueryVariations: Array
+    lastQueryVariants: Array
   }
 
   connect() {
-    this.lastQueryVariations ||= []
+    this.lastQueryVariants ||= []
     setInterval(() => {
       this.sendHistoryToBackend()
     }, STATISTICS_SEND_INTERVAL)
@@ -32,17 +32,19 @@ export default class extends Controller {
   }
 
   addToHistory(value) {
-    const isQueryDouble = isDouble(value, this.lastQueryVariations[this.lastQueryVariations.length - 1])
-    const actualQueryValue = isQueryDouble ? actualQuery(value, this.lastQueryVariations) : value
+    const isQueryDouble = isDouble(value, this.lastQueryVariants[this.lastQueryVariants.length - 1])
+    const actualQueryValue = isQueryDouble ? actualQuery(value, this.lastQueryVariants) : value
     this.historyValue = updateHistory(actualQueryValue, this.historyValue, isQueryDouble)
 
     this.renderHistory()
-    this.updateQueryVariations(value, isQueryDouble)
+    this.updateQueryVariants(value, isQueryDouble)
     this.isUpdated = true
   }
 
-  updateQueryVariations(value, isQueryDouble) {
-    isQueryDouble ? this.lastQueryVariations.push(value) : this.lastQueryVariations = [value]
+  updateQueryVariants(value, isQueryDouble) {
+    if (value.length < 1) { return }
+
+    isQueryDouble ? this.lastQueryVariants.push(value) : this.lastQueryVariants = [value]
   }
 
   renderHistory() {
@@ -59,22 +61,42 @@ export default class extends Controller {
   sendHistoryToBackend() {
     if (!this.isUpdated) { return }
 
-    const token = document.getElementsByName(
-      "csrf-token"
-    )[0].content;
-
     fetch('/article_queries', {
       method: 'POST',
       headers: {
-        'X-CSRF-Token': token,
+        'X-CSRF-Token': this.csrfToken(),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         article_query: this.historyValue.map((value) => ({ body: value[0], created_at: value[1] }))
       })
     })
-    . then((response) => (
+    .then((response) => (
       response.ok ? this.isUpdated = false : console.log(response.statusText)
     ))
+  }
+
+  clear() {
+    fetch('/article_queries', {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': this.csrfToken(),
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      if(response.ok) {
+        this.historyValue = []
+        this.lastQueryVariants = []
+        this.isUpdated = false
+        this.renderHistory()
+      } else {
+        console.log(response.statusText)
+      }
+    })
+  }
+
+  csrfToken() {
+    return document.getElementsByName("csrf-token")[0].content;
   }
 }

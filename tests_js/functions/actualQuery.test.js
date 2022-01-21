@@ -29,7 +29,7 @@ describe('actualQuery', () => {
     })
 
     it('returns longest of queryVariations when query is shorter', () => {
-      expect(actualQuery('What', ['What is'])).toEqual('What is')
+      expect(actualQuery('What', ['Whati', 'What is'])).toEqual('What is')
     })
   });
 })
