@@ -1,8 +1,8 @@
 import { Controller } from '@hotwired/stimulus';
 
-import actualQuery from '../functions/actualQuery';
-import isDouble from '../functions/isDouble'
-import updateHistory from '../functions/updateHistory'
+import actualQuery from 'functions/actualQuery';
+import isDouble from 'functions/isDouble'
+import updateHistory from 'functions/updateHistory'
 
 const STATISTICS_SEND_INTERVAL = 5_000
 
